@@ -115,4 +115,12 @@ function restart() {
 
 restartBtn.addEventListener('click', restart);
 
-restart();
+function restart() {
+  createBoardData();
+  placeObstacles();
+
+  generatePieces(); // ⚠️ IMPORTANT
+
+  render();
+  renderPieces();
+}
