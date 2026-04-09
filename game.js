@@ -31,7 +31,7 @@ function render() {
 function renderPieces() {
   trayEl.innerHTML = '';
 
-  pieces.forEach((p, index) => {
+  pieces.forEach((p) => {
     if (p.used) return;
 
     const el = document.createElement('div');
@@ -49,18 +49,25 @@ function renderPieces() {
       });
     });
 
-    el.onmousedown = (e) => startDrag(e, p);
+    el.onmousedown = (e) => startDrag(e, p, el);
 
     trayEl.appendChild(el);
   });
 }
 
-function startDrag(e, piece) {
+function startDrag(e, piece, element) {
   dragPiece = piece;
+
+  element.classList.add('dragging', 'shadow');
 }
 
 document.addEventListener('mouseup', (e) => {
   if (!dragPiece) return;
+
+  // 🔥 reset visuel
+  document.querySelectorAll('.piece').forEach(p => {
+    p.classList.remove('dragging', 'shadow');
+  });
 
   const rect = boardEl.getBoundingClientRect();
   const x = Math.floor((e.clientX - rect.left) / 44);
@@ -115,12 +122,4 @@ function restart() {
 
 restartBtn.addEventListener('click', restart);
 
-function restart() {
-  createBoardData();
-  placeObstacles();
-
-  generatePieces(); // ⚠️ IMPORTANT
-
-  render();
-  renderPieces();
-}
+restart();
