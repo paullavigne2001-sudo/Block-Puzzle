@@ -37,6 +37,24 @@ body {
   background: linear-gradient(145deg,#7a808c,#3e4656);
 }
 
+.tray {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.piece {
+  display: grid;
+  gap: 4px;
+  cursor: grab;
+}
+
+.tile {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
 .controls {
   display: flex;
   flex-direction: column;
