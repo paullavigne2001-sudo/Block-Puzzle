@@ -1,0 +1,51 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0b1325;
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.app {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(9, 40px);
+  gap: 4px;
+  background: #111;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  background: #1c2740;
+  border-radius: 6px;
+}
+
+.filled {
+  box-shadow: inset 0 -6px 10px rgba(255,255,255,.2);
+}
+
+.obstacle {
+  background: linear-gradient(145deg,#7a808c,#3e4656);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+button {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
