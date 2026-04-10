@@ -5,6 +5,9 @@ const restartBtn = document.getElementById('restartBtn');
 let dragPiece = null;
 let dragElement = null;
 
+/* =========================
+   RENDER BOARD
+========================= */
 function render() {
   boardEl.innerHTML = '';
 
@@ -24,11 +27,60 @@ function render() {
         cell.classList.add('obstacle');
       }
 
+      cell.dataset.x = x;
+      cell.dataset.y = y;
+
       boardEl.appendChild(cell);
     }
   }
 }
 
+/* =========================
+   PREVIEW
+========================= */
+function clearPreview() {
+  document.querySelectorAll('.cell').forEach(c => {
+    c.classList.remove('preview-ok', 'preview-bad');
+  });
+}
+
+function showPreview(piece, x, y) {
+  clearPreview();
+
+  let valid = true;
+  const cells = [];
+
+  for (let dy = 0; dy < piece.matrix.length; dy++) {
+    for (let dx = 0; dx < piece.matrix[0].length; dx++) {
+      if (!piece.matrix[dy][dx]) continue;
+
+      const px = x + dx;
+      const py = y + dy;
+
+      if (px >= SIZE || py >= SIZE || board[py][px]) {
+        valid = false;
+        continue;
+      }
+
+      const cell = getCell(px, py);
+      if (cell) cells.push(cell);
+    }
+  }
+
+  cells.forEach(c => {
+    c.classList.add(valid ? 'preview-ok' : 'preview-bad');
+  });
+
+  return valid;
+}
+
+function getCell(x, y) {
+  return document.querySelector(`.cell[data-x="${x}"][data-y="${y}"]`);
+}
+
+/* =========================
+   PIECES
+========================= */
 function renderPieces() {
   trayEl.innerHTML = '';
 
@@ -38,8 +90,7 @@ function renderPieces() {
     const el = document.createElement('div');
     el.className = 'piece';
 
-    const cols = p.matrix[0].length;
-    el.style.gridTemplateColumns = `repeat(${cols}, 20px)`;
+    el.style.gridTemplateColumns = `repeat(${p.matrix[0].length}, 20px)`;
 
     p.matrix.forEach(row => {
       row.forEach(cell => {
@@ -57,13 +108,14 @@ function renderPieces() {
   });
 }
 
+/* =========================
+   DRAG
+========================= */
 function startDrag(e, piece, element) {
   dragPiece = piece;
 
   dragElement = element.cloneNode(true);
   dragElement.classList.add('drag-preview');
-
-  /* 🔥 FIX CRITIQUE */
   dragElement.style.gridTemplateColumns = element.style.gridTemplateColumns;
 
   document.body.appendChild(dragElement);
@@ -78,6 +130,16 @@ function moveDrag(e) {
 
   dragElement.style.left = e.clientX + 'px';
   dragElement.style.top = e.clientY + 'px';
+
+  const rect = boardEl.getBoundingClientRect();
+  const x = Math.floor((e.clientX - rect.left) / 44);
+  const y = Math.floor((e.clientY - rect.top) / 44);
+
+  if (x >= 0 && y >= 0 && x < SIZE && y < SIZE) {
+    showPreview(dragPiece, x, y);
+  } else {
+    clearPreview();
+  }
 }
 
 document.addEventListener('mouseup', (e) => {
@@ -95,25 +157,18 @@ document.addEventListener('mouseup', (e) => {
   const y = Math.floor((e.clientY - rect.top) / 44);
 
   if (x >= 0 && y >= 0 && x < SIZE && y < SIZE) {
-    placePiece(dragPiece, x, y);
+    const valid = showPreview(dragPiece, x, y);
+    if (valid) placePiece(dragPiece, x, y);
   }
 
+  clearPreview();
   dragPiece = null;
 });
 
+/* =========================
+   GAMEPLAY
+========================= */
 function placePiece(piece, x, y) {
-  for (let dy = 0; dy < piece.matrix.length; dy++) {
-    for (let dx = 0; dx < piece.matrix[0].length; dx++) {
-      if (!piece.matrix[dy][dx]) continue;
-
-      const px = x + dx;
-      const py = y + dy;
-
-      if (px >= SIZE || py >= SIZE) return;
-      if (board[py][px]) return;
-    }
-  }
-
   for (let dy = 0; dy < piece.matrix.length; dy++) {
     for (let dx = 0; dx < piece.matrix[0].length; dx++) {
       if (!piece.matrix[dy][dx]) continue;
@@ -133,6 +188,9 @@ function placePiece(piece, x, y) {
   }
 }
 
+/* =========================
+   INIT
+========================= */
 function restart() {
   createBoardData();
   placeObstacles();
@@ -142,5 +200,4 @@ function restart() {
 }
 
 restartBtn.addEventListener('click', restart);
-
 restart();
