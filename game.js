@@ -3,6 +3,7 @@ const trayEl = document.getElementById('tray');
 const restartBtn = document.getElementById('restartBtn');
 
 let dragPiece = null;
+let dragElement = null;
 
 function render() {
   boardEl.innerHTML = '';
@@ -58,16 +59,31 @@ function renderPieces() {
 function startDrag(e, piece, element) {
   dragPiece = piece;
 
-  element.classList.add('dragging', 'shadow');
+  dragElement = element.cloneNode(true);
+  dragElement.classList.add('drag-preview');
+  document.body.appendChild(dragElement);
+
+  moveDrag(e);
+
+  document.addEventListener('mousemove', moveDrag);
+}
+
+function moveDrag(e) {
+  if (!dragElement) return;
+
+  dragElement.style.left = e.clientX + 'px';
+  dragElement.style.top = e.clientY + 'px';
 }
 
 document.addEventListener('mouseup', (e) => {
   if (!dragPiece) return;
 
-  // 🔥 reset visuel
-  document.querySelectorAll('.piece').forEach(p => {
-    p.classList.remove('dragging', 'shadow');
-  });
+  document.removeEventListener('mousemove', moveDrag);
+
+  if (dragElement) {
+    dragElement.remove();
+    dragElement = null;
+  }
 
   const rect = boardEl.getBoundingClientRect();
   const x = Math.floor((e.clientX - rect.left) / 44);
