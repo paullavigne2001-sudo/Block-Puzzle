@@ -7,12 +7,14 @@ body {
   justify-content: center;
 }
 
+/* layout */
 .app {
   display: flex;
   gap: 20px;
   padding: 20px;
 }
 
+/* grille */
 .board {
   display: grid;
   grid-template-columns: repeat(9, 40px);
@@ -22,11 +24,13 @@ body {
   border-radius: 12px;
 }
 
+/* cases */
 .cell {
   width: 40px;
   height: 40px;
   background: #1c2740;
   border-radius: 6px;
+  transition: background 0.15s ease;
 }
 
 .filled {
@@ -37,12 +41,14 @@ body {
   background: linear-gradient(145deg,#7a808c,#3e4656);
 }
 
+/* tray */
 .tray {
   display: flex;
   gap: 10px;
   margin-top: 20px;
 }
 
+/* pièces */
 .piece {
   display: grid;
   gap: 4px;
@@ -53,9 +59,12 @@ body {
   width: 20px;
   height: 20px;
   border-radius: 4px;
+
+  /* petit relief */
   box-shadow: inset 0 -3px 6px rgba(255,255,255,.2);
 }
 
+/* controls */
 .controls {
   display: flex;
   flex-direction: column;
@@ -69,7 +78,9 @@ button {
   cursor: pointer;
 }
 
-/* 🔥 DRAG PREVIEW FIX FINAL */
+/* =========================
+   DRAG PREVIEW (OMBRE)
+========================= */
 .drag-preview {
   position: fixed;
   pointer-events: none;
@@ -80,6 +91,17 @@ button {
 
   transform: translate(-50%, -50%) scale(1.2);
 
-  /* OMBRE TRÈS VISIBLE */
+  /* ombre bien visible */
   filter: drop-shadow(0 20px 25px rgba(0,0,0,0.8));
+}
+
+/* =========================
+   PREVIEW PLACEMENT
+========================= */
+.preview-ok {
+  background: rgba(100,255,150,0.4) !important;
+}
+
+.preview-bad {
+  background: rgba(255,100,100,0.4) !important;
 }
