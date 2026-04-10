@@ -47,27 +47,12 @@ body {
   display: grid;
   gap: 4px;
   cursor: grab;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .tile {
   width: 20px;
   height: 20px;
   border-radius: 4px;
-}
-
-/* ✨ NOUVEAU : effet drag premium */
-.piece.dragging {
-  transform: scale(1.1);
-  opacity: 0.9;
-  cursor: grabbing;
-  z-index: 10;
-}
-
-.piece.shadow {
-  box-shadow:
-    0 12px 25px rgba(0,0,0,0.4),
-    0 4px 10px rgba(0,0,0,0.3);
 }
 
 .controls {
@@ -81,4 +66,18 @@ button {
   border-radius: 8px;
   border: none;
   cursor: pointer;
+}
+
+/* 🔥 drag preview */
+.drag-preview {
+  position: fixed;
+  pointer-events: none;
+  z-index: 999;
+  display: grid;
+  gap: 4px;
+  transform: translate(-50%, -50%) scale(1.1);
+
+  box-shadow:
+    0 15px 30px rgba(0,0,0,0.5),
+    0 5px 12px rgba(0,0,0,0.4);
 }
