@@ -38,7 +38,8 @@ function renderPieces() {
     const el = document.createElement('div');
     el.className = 'piece';
 
-    el.style.gridTemplateColumns = `repeat(${p.matrix[0].length}, 20px)`;
+    const cols = p.matrix[0].length;
+    el.style.gridTemplateColumns = `repeat(${cols}, 20px)`;
 
     p.matrix.forEach(row => {
       row.forEach(cell => {
@@ -61,6 +62,10 @@ function startDrag(e, piece, element) {
 
   dragElement = element.cloneNode(true);
   dragElement.classList.add('drag-preview');
+
+  /* 🔥 FIX CRITIQUE */
+  dragElement.style.gridTemplateColumns = element.style.gridTemplateColumns;
+
   document.body.appendChild(dragElement);
 
   moveDrag(e);
