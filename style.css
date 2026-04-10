@@ -7,14 +7,12 @@ body {
   justify-content: center;
 }
 
-/* layout */
 .app {
   display: flex;
   gap: 20px;
   padding: 20px;
 }
 
-/* grille */
 .board {
   display: grid;
   grid-template-columns: repeat(9, 40px);
@@ -24,84 +22,47 @@ body {
   border-radius: 12px;
 }
 
-/* cases */
 .cell {
   width: 40px;
   height: 40px;
   background: #1c2740;
   border-radius: 6px;
-  transition: background 0.15s ease;
+  transition: all 0.15s;
 }
 
 .filled {
   box-shadow: inset 0 -6px 10px rgba(255,255,255,.2);
 }
 
-.obstacle {
-  background: linear-gradient(145deg,#7a808c,#3e4656);
-}
+/* obstacles */
+.obstacle { background: linear-gradient(145deg,#7a808c,#3e4656); }
+.obstacle.crack1 { background: linear-gradient(145deg,#8a6a6a,#3e2a2a); }
 
-/* tray */
-.tray {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
+/* BONUS VISU */
+.bonus-star { background: gold !important; }
+.bonus-bomb { background: crimson !important; }
+.bonus-hammer { background: orange !important; }
+.bonus-laser { background: cyan !important; }
 
-/* pièces */
-.piece {
-  display: grid;
-  gap: 4px;
-  cursor: grab;
-}
+/* preview */
+.preview-ok { background: rgba(100,255,150,0.4)!important; }
+.preview-bad { background: rgba(255,100,100,0.4)!important; }
 
+/* pieces */
+.tray { display:flex; gap:10px; margin-top:20px; }
+.piece { display:grid; gap:4px; cursor:grab; }
 .tile {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-
-  /* petit relief */
+  width:20px;height:20px;border-radius:4px;
   box-shadow: inset 0 -3px 6px rgba(255,255,255,.2);
 }
 
-/* controls */
-.controls {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-button {
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-}
-
-/* =========================
-   DRAG PREVIEW (OMBRE)
-========================= */
+/* drag */
 .drag-preview {
-  position: fixed;
-  pointer-events: none;
-  z-index: 999;
-
-  display: grid;
-  gap: 4px;
-
-  transform: translate(-50%, -50%) scale(1.2);
-
-  /* ombre bien visible */
-  filter: drop-shadow(0 20px 25px rgba(0,0,0,0.8));
+  position:fixed; pointer-events:none; z-index:999;
+  display:grid; gap:4px;
+  transform:translate(-50%,-50%) scale(1.2);
+  filter:drop-shadow(0 20px 25px rgba(0,0,0,0.8));
 }
 
-/* =========================
-   PREVIEW PLACEMENT
-========================= */
-.preview-ok {
-  background: rgba(100,255,150,0.4) !important;
-}
-
-.preview-bad {
-  background: rgba(255,100,100,0.4) !important;
-}
+.controls { display:flex; flex-direction:column; gap:10px; }
+button { padding:10px; border-radius:8px; border:none; cursor:pointer; }
